@@ -1,0 +1,25 @@
+(1) Variar el dicc. de palabras prototípicas y ver el efecto en la clasficación, con cada enfoque
+	* Hacer tabla de todos los casos
+	* En cada dicc. de palabras prototípicas comparar el ranking de palabras, ¿criterio? ¿validación psicologos?
+
+(2) Variar los embeddings y repetir los experimentos del punto anterior
+
+(3) Experimentar con el enfoque iterativo 
+
+	* Las etiquetas predichas varian conforme avanzan las iteraciones
+	* Las etiquetas predichas parecen ser más "completas" con el KW auto 
+
+(4) Experimentar con el enfoque de acotar el número de palabras que se promedian en función de la sep. del origen de las representaciones
+
+
+Corpus:
+WINE: https://www.kaggle.com/datasets/zynicide/wine-reviews
+MOVIES: https://www.kaggle.com/competitions/sentiment-analysis-on-movie-reviews/data
+JRC: https://wt-public.emm4u.eu/Acquis/JRC-Acquis.3.0/corpus/
+
+
+Submit: 
+https://www.springer.com/journal/13042
+
+
+

@@ -1,0 +1,9 @@
+Best combination so far: {'beta1': 2, 'beta2': 2, 'n_cols': 7, 'top_n': 100, 'alpha': 0.9}
+Accuracy:0.44116267561912537
+
+
+
+
+
+
+
