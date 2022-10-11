@@ -270,7 +270,7 @@ class SentimentAnalysis:
                 print(f"done in {round(time.time()-start,5)}")
                 start = time.time()
                 print("Calculando puntajes... ", end='')
-            scores_df = puntaje.transform(df=self.df,text_col="text",label_col="Normalized Label",
+            scores_df = puntaje.transform(df=self.df,text_col=self.text_col_name,label_col="Normalized Label",
                                             beta1=combination['beta1'],
                                             beta2=combination['beta2'])
             if not gs:
