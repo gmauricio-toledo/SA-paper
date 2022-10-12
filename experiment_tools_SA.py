@@ -289,6 +289,7 @@ class SentimentAnalysis:
             results = self.__clasificacion_cnn(X_train, X_test, y_train, y_test)
             if not gs:
                 print(f"done in {round(time.time()-start,5)}")
+                print(f"Iteración {k+1}/{n_iter} completada.")
         if gs:
             if results['test_accuracy'] > self.best_accuracy:
                 self.best_accuracy = results['test_accuracy']
@@ -305,10 +306,10 @@ class SentimentAnalysis:
         '''
         if model is not None:
             self.model = model
-        self.__do(combination_dict,gs=False)
+        results = self.__do(combination_dict,gs=False)
+        return results
 
     def __make_model(self,size_x,size_y):
-        # n_clases =  self.hyper_params_dict['n_clases']
         model = Sequential()
         model.add(Conv2D(25, kernel_size=(3,3), strides=(1,1), padding='valid', activation='relu', input_shape=(size_x,size_y,1)))
         model.add(MaxPool2D(pool_size=(1,1)))
@@ -343,7 +344,7 @@ class SentimentAnalysis:
         history = model.fit(X_train, y_train, batch_size=100, epochs=100, validation_data=(X_test, y_test),
                             callbacks=[es],verbose=0)
         score = model.evaluate(X_test, y_test)
-        y_pred = model(X_test)  # para obtener las etiquetas predichas
+        y_pred = np.argmax(model(X_test),axis=1)  # para obtener las etiquetas predichas
         return {'test_loss': score[0], 'test_accuracy': score[1], 'predictions':y_pred}
 
     def grid_search(self,param_dict,default_params_dict):
