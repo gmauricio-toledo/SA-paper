@@ -329,9 +329,9 @@ class SentimentAnalysis:
         y_val = y_train[val_size:]
         X_train = X_train[:val_size]
         y_train = y_train[:val_size]
-        y_train = to_categorical(y_train,5)
-        y_test = to_categorical(y_test,5)
-        y_val = to_categorical(y_val,5)
+        y_train = to_categorical(y_train,self.n_labels)
+        y_test = to_categorical(y_test,self.n_labels)
+        y_val = to_categorical(y_val,self.n_labels)
         X_train = X_train.reshape(X_train.shape[0], X_train.shape[1], X_train.shape[2], 1)
         X_test = X_test.reshape(X_test.shape[0], X_test.shape[1], X_test.shape[2], 1)
         X_val = X_val.reshape(X_val.shape[0], X_val.shape[1], X_val.shape[2], 1)
