@@ -356,6 +356,9 @@ class SentimentAnalysis:
         params = list(self.param_dict.keys())
         missing_params = [x for x in self.default_params_dict.keys() if x not in params]
         n_params = len(params)
+        num_combinations = np.prod([len(x) for x in param_dict.values()])
+        print(f"Number of combinations to try {num_combinations}")
+        self.best_accuracy = 0
         for values in product(*self.param_dict.values()):
             combination = {params[j]:values[j] for j in range(n_params)}
             # Llenar el resto de parametros con los defaults

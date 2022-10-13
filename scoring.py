@@ -62,6 +62,9 @@ class Scoring:
         self.vecinos = vecinos_W0
         self.W0_check = True
 
+        # implementar la nueva forma:
+        
+
     def __s_tilde(self,label:int,word:str):
         '''
         Esta función devuelve el pre-scoring de una palabra <word> en un mensaje con tag ds, la cual está normalizado entre -1 y 1.
