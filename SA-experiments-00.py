@@ -21,5 +21,6 @@ if __name__== "__main__":
             'top_n': 50
             }
     results = sa.run(combination_dict=comb_dict)
-    print(f"Experimento con {comb_dict}: {results}")
+    with open('resultados-e00.txt', 'w') as f:
+        f.write(f"Experimento con {comb_dict}:\n{results}")
     sys.exit()
