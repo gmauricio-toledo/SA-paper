@@ -18,8 +18,10 @@ if __name__== "__main__":
             'beta2': 2,
             'n_cols': 7,
             'alpha': 0.9,
-            'top_n': 50
+            'top_n': 50,
+            'n_iter':3
             }
     results = sa.run(combination_dict=comb_dict)
-    print(f"Experimento con {comb_dict}: {results}")
+    with open('resultados-e01.txt', 'w') as f:
+        f.write(f"Experimento con {comb_dict}:\n{results}")
     sys.exit()
