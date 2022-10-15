@@ -18,7 +18,8 @@ if __name__== "__main__":
             'beta2': 1,
             'n_cols': 5,
             'alpha': 0.9,
-            'top_n': 50
+            'top_n': 50,
+            'n_iter': 3
             }
     results = sa.run(combination_dict=comb_dict)
     with open('resultados-e00.txt', 'w') as f:
