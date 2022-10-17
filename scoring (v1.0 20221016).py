@@ -29,7 +29,6 @@ class Scoring:
         self.texts_rep_check = False
         self.scoring_check = False
         self.kv = False # Indica si el módelo son keyedvectors
-        self.__emb_matrix()
     
     def build_neighbors(self,alpha=0):
         '''
@@ -38,44 +37,32 @@ class Scoring:
         max_sim: similitud con el vecino más cercano en W0_list
         word_sim: el vecino más cercano en W0_list
         '''
-        S = np.dot(self.embeddings,np.transpose(self.embeddings))
-        # identificar los idxs de las palabras prototípicas
-        I = []
-        for w in self.W0.keys():
-            try:
-                idx = self.vocab.index(w)
-                I.append(idx)
-            except:
-                raise KeyError(f"Prototypical word <{w}> not in vocabulary.")
-        # Forzamos a que la diagonal tenga 0's para que no metan ruido en el cálculo
-        for j in range(S.shape[0]):
-            S[j,j] = 0
-        w0_idxs_dict = dict(zip(range(len(I)),I)) # Diccionario para registrar a qué índices originales corresponde cada índice (columna) de S1
-        S_red = S[:,I] # Nos quedamos sólo con las columnas que representen palabras prototípicas
-        row_idxs_kept = [j for j,x in enumerate(S_red) if np.max(x)>=alpha and j not in I] # Nos quedamos sólo con los renglones que tengan algún elemento >=alpha
-        w1_idxs_dict = dict(zip(range(len(row_idxs_kept)),row_idxs_kept)) # Diccionario para registrar a qué índices originales corresponde cada índice (renglón) de S1
-        vecinos = np.argmax(S_red[row_idxs_kept],axis=1) # Los índices, dentro de cada renglón, donde está la mayor similitud
+        model = self.model
+        self.alpha = alpha
+        W0_list = list(self.W0.keys())
         vecinos_W0 = {}
-        for j in w1_idxs_dict.keys():
-            sim = S[w1_idxs_dict[j],w0_idxs_dict[vecinos[j]]] # la similitud con el vecino más cercano en W0
-            word = self.vocab[w0_idxs_dict[vecinos[j]]] # El vecino más cercano en W0
-            vecinos_W0[self.vocab[w1_idxs_dict[j]]] = (sim,word)
+        N = len(self.vocab)
+        filtered_W0 = [w for w in W0_list if w in self.vocab]
+        for w in filtered_W0:
+            vecinos_full = model.wv.similar_by_word(w,topn=N) 
+            vecinos = []
+            for pair in vecinos_full:
+                if pair[1]>self.alpha:
+                    vecinos.append(pair)
+                else:
+                    break
+            # vecinos = [pair for pair in vecinos_full if pair[1]>self.alpha] 
+            for pair in vecinos:
+                if pair[0] not in W0_list:
+                    if pair[0] in vecinos_W0.keys():
+                        vecinos_W0[pair[0]].append((pair[1],w))
+                    else:
+                        vecinos_W0[pair[0]] = [(pair[1],w)]
+        vecinos_W0 = {word:max(vecinos_W0[word],key=itemgetter(0)) for word in vecinos_W0.keys()}
         self.vecinos = vecinos_W0
         self.W0_check = True
-        
-    def __emb_matrix(self):
-        '''
-        Este método construye la matriz con los embeddings
-        '''
-        N = len(self.model.wv.key_to_index.keys())
-        n_dim = self.model.vector_size
-        self.embeddings = np.zeros(shape=(N,n_dim))
-        kv = self.model.wv
-        for k,word in enumerate(self.vocab):
-            try:
-                self.embeddings[k,:] = kv.get_vector(word,norm=True) 
-            except:
-                pass 
+
+        # implementar la nueva forma:
         
 
     def __s_tilde(self,label:int,word:str):
