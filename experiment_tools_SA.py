@@ -225,27 +225,6 @@ class SentimentAnalysis:
         self.kw_dict = ake.get_kw(topn=top_n)
         return self.kw_dict
 
-        # self.n_cols = n_cols
-        # losses = []
-        # accs = []
-        # for k in range(n_iter):
-        #     puntaje = Scoring(w2vmodel=self.emb_model,W0=self.kw_dict)
-        #     puntaje.build_neighbors(alpha=alpha)
-        #     scores_df = puntaje.transform(df=self.df,text_col="text",label_col="Normalized Label",beta1=beta1,beta2=beta2)
-        #     kw_dict = dict(zip(scores_df['word'].values,scores_df['score'].values))
-        #     _ = puntaje.get_words_representations(mode='mean')
-        #     X_msjs_rep = puntaje.get_texts_representations_MAT(cols_num=n_cols)
-        #     X_train, X_test, y_train, y_test = train_test_split(X_msjs_rep, self.y, random_state=331,train_size=0.75) 
-        #     results = self.clasificacion_cnn(X_train, X_test, y_train, y_test)
-        #     accs.append(results['test_accuracy'])
-        #     losses.append(results['test_loss'])
-        #     # accs.append(accuracy_score(y_test,y_pred))
-        #     # recs.append(recall_score(y_test,y_pred,average='macro'))
-        #     # precs.append(precision_score(y_test,y_pred,average='macro'))
-        #     print(f"{k+1}/{n_iter} done...")
-        # return losses,accs
-
-
     def __do(self,combination:dict,gs=True):
         '''
         Esta función realiza una "corrida" con una combinación de parámetros, 
